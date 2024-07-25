@@ -13,7 +13,7 @@ func (app *Config) routes() http.Handler {
 	mux.Get("/", app.HomePage)
 	mux.Get("/login", app.LoginPage)
 	mux.Post("/login", app.PostLoginPage)
-	mux.Post("/logout", app.Logout)
+	mux.Get("/logout", app.Logout)
 	mux.Get("/register", app.RegisterPage)
 	mux.Post("/register", app.PostRegisterPage)
 	mux.Post("/activate-account", app.ActivateAccount)

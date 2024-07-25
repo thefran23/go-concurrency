@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"encoding/gob"
 	"fmt"
+	"github.com/thefran23/go-concurrency/data"
 	"log"
 	"net/http"
 	"os"
@@ -34,6 +36,7 @@ func main() {
 		Wait:     &wg,
 		InfoLog:  infoLog,
 		ErrorLog: errorLog,
+		Models:   data.New(db),
 	}
 	go app.listenForShutDown()
 	app.serve()
@@ -92,6 +95,7 @@ func openDB(dsn string) (*sql.DB, error) {
 }
 
 func initSession() *scs.SessionManager {
+	gob.Register(data.User{})
 	session := scs.New()
 	session.Store = redisstore.New(initRedis())
 	session.Lifetime = 24 * time.Hour
